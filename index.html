@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Your page title here :)</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <button id="btnSign-out" class="buttom button-primary btn" style="padding: 0; display: none; margin: 10px;">Cerrar
+    sesión</button>
+  <div class="container ">
+    <div class="login">
+      <h1>Iniciar Sesión</h1>
+      <img src="./images/enyoi.jpg" alt="enyoi" width="300" height="100">
+      <form id="start">
+        <input type="email" id="email" placeholder="Correo electrónico">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button id="btnSign-in" class="buttom button-primary">Iniciar sesión</button>
+        <button id="btnSign-up" class="buttom button-primary">Registrarse</button>
+
+      </form>
+
+
+
+    </div>
+
+
+
+
+
+    <div class="welcome" style="display: none;">
+      <h1>¡Hola <span style="color:red" class="sp">Bienvenido!</h1>
+      <button id="btnSign-out" class="buttom button-primary">Cerrar sesión</button>
+    </div>
+
+
+  </div>
+  <div class="add__products" style="display: none">
+    <!-- <button id="btnSign-out" class="buttom button-primary" style="width: 25%; padding: 0;">Cerrar sesión</button> -->
+    <h1 class="title">Registro de productos</h1>
+    <form class="form__products" autocomplete="off">
+
+      <input class="input" id="task" type="text" name="text" placeholder="Agregar un producto..." >
+
+      <button class="add" id="btnSend" type="submit">+</button>
+
+    </form>
+
+    <ul class="product-list" id="product-list"></ul>
+
+    
+  </div>
+
+
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script type="module" src="js/index.js">
+
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js"
+    integrity="sha512-nO7wgHUoWPYGCNriyGzcFwPSF+bPDOR+NvtOYy2wMcWkrnCNPKBcFEkU80XIN14UVja0Gdnff9EmydyLlOL7mQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+</body>
+
+</html>
