@@ -217,6 +217,7 @@ function editProduct(markup, idProduct, uid) {
     markup.find(".product__added").prop("placeholder", "");
     markup.find(".product__added").on("keypress", async (e) => {
       if (e.keyCode === 13) {
+        $(".product-list").empty();
         console.log("enter");
         let newProduct = markup.find(".product__added").val();
         markup.find(".product__added").prop("readonly", true);
