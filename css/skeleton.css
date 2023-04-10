@@ -157,8 +157,9 @@ form .add {
   cursor: pointer;
 
 }
-.products .mi-clase:focus{
-  border: 1px solid  rgba(174, 5, 114, 1);
+
+.products .mi-clase:focus {
+  border: 1px solid rgba(174, 5, 114, 1);
 }
 
 .products .product__added:focus {
@@ -169,25 +170,35 @@ form .add {
 .products .product__added {
   width: 100%;
   background-color: #d4d2d4;
- /*  border: 1px solid rgba(0, 0, 0, 0.1); */
+  /*  border: 1px solid rgba(0, 0, 0, 0.1); */
   margin: auto;
   outline: none;
 
 }
 
 
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
-
+.buttons .confirm {
+  height: 40px;
+  cursor: pointer;
+}
 
 
 
 .edit {
   cursor: pointer;
- 
+
 }
 
-.products  .delete {
+.products .buttons  .delete {
   background-color: #f42e46;
+  width: 40px;
+  height: 40px;
 }
 
 .add__products .delete {

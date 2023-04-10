@@ -15,10 +15,10 @@ import {
   getDoc,
   updateDoc,
 } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
-let register = false;
-/* let editStatus = false; */
+let register = false; // inicializar register en false
+
 $(function () {
-  listenLogin(register);
+  listenLogin(register); // llama la funcion y le pasa el valor register
 
   $(".products")
     .find(".edit")
@@ -31,7 +31,7 @@ $(function () {
     .on("click", (e) => {
       e.preventDefault();
       console.log("click en iniciar sesion");
-      $(".login").find("#btnSign-in").off("click"); //limpar el evento click del login
+      /*  $(".login").find("#btnSign-in").off("click"); //limpar el evento click del login */
       login();
     });
   $(".login")
@@ -125,20 +125,15 @@ async function login() {
 }
 function listenLogin(register) {
   if (register == false) {
-    console.log(register);
     onAuthStateChanged(auth, (user) => {
-      console.log("aqui");
-      console.log(register);
       if (user) {
-        console.log("esta logeado");
+        // si el usuaruo esta autenticado muestra el formulario de registro y oculta el formulario de login
         $(".container").hide();
         $(".welcome").show();
         $(".add__products").show();
         $("#btnSign-out").show();
-
         addProduct(user.uid);
       } else {
-        console.log("deslogueado");
         $(".container").show();
         $(".login").show();
         $(".welcome").hide();
@@ -147,7 +142,6 @@ function listenLogin(register) {
       }
     });
   } else {
-    console.log("despues de registrarse");
     $(".container").show();
     $(".login").show();
     $(".welcome").hide();
@@ -160,12 +154,8 @@ function addProduct(uid) {
   $("#btnSend").on("click", (e) => {
     e.preventDefault();
     $(".product-list").empty();
-    console.log(uid + " desde add");
-
     let product = $("#task").val();
-
     $("#task").val("");
-    console.log("El producto sera agregado en el id " + uid);
     addDoc(collection(db, "products-" + uid), {
       product: product,
     });
@@ -182,54 +172,81 @@ async function getProduct(uid) {
       const productAdded = product.data().product;
       const idProduct = product.id;
 
-      const markup = $(`<li id="products"class="products">                
-         <input  class="product__added" type="text" placeholder="${productAdded}" readonly  >
+      const markup = $(`<li id="products"class="products">      
+          
+         <input  class="product__added" type="text" placeholder="${productAdded}" readonly>
+       <div class="buttons">   
          <img class="edit" src="./images/editarr.png" alt="editar"> 
-         <div id="delete"class="delete">x</div>
+         <img class="confirm" src="./images/confirm.png" alt="confirm"> 
+
+         <div id="delete"class="delete">x</div>       
+        </div>  
  </li>`);
       $(".product-list").append(markup);
-      editProduct(markup, idProduct, uid);
+      editProduct(markup, idProduct, uid, productAdded);
 
       markup.find(".delete").on("click", (e) => {
         markup.find(".delete").off("click");
         e.preventDefault();
+
         $(".product-list").empty();
-        console.log(productAdded);
-        console.log("eliminar");
-        deleteProduct(productAdded, idProduct, uid);
+
+        deleteProduct(idProduct, uid);
       });
     });
   });
 }
 
 //////////////delete product//////////////////////////////////////////
-function deleteProduct(productAdded, idProduct, uid) {
-  console.log(productAdded + ": id " + idProduct + "del usuaario " + uid);
-
+function deleteProduct(idProduct, uid) {
   deleteDoc(doc(db, "products-" + uid, idProduct));
 }
 //////////////////////edit prouct////////////////////
-function editProduct(markup, idProduct, uid) {
-  markup.find("img").on("click", (e) => {
+function editProduct(markup, idProduct, uid, productAdded) {
+  markup.find(".edit").on("click", (e) => {
     markup.find(".product__added").prop("readonly", false);
     markup.find(".product__added").css("background-color", "white");
-    markup.find(".product__added").prop("placeholder", "");
-    markup.find(".product__added").on("keypress", async (e) => {
+    markup.find(".product__added").on("keydown", async (e) => {
+      markup.find(".confirm").on("click", (e) => {
+        console.log("click en confirm");
+        newDoc(uid, idProduct, markup);
+      });
+
       if (e.keyCode === 13) {
-      
-        console.log("enter");
-        let newProduct = markup.find(".product__added").val();
-        markup.find(".product__added").prop("readonly", true);
-        markup.find(".product__added").css("background-color", "#d4d2d4");
-        /*       const docu = await getDoc(doc(db, "products-" + uid, idProduct)); */
-        editStatus = true;
-        console.log(newProduct);
-        console.log(idProduct);
-        updateDoc(doc(db, "products-" + uid, idProduct), {
-          product: newProduct,
-        });
+        newDoc(uid, idProduct, markup);
       }
     });
+  });
+
+  $(document).on("keydown", (e) => {
+    if (e.keyCode === 27) {
+      console.log("esc");
+      e.stopPropagation();
+
+      markup.find(".product__added").prop("readonly", true);
+      markup.find(".product__added").css("background-color", "#d4d2d4");
+      markup.find(".product__added").prop("placeholder", productAdded);
+    }
+  });
+  $(document).on("click", (e) => {
+    if (e.keyCode === 27) {
+      console.log("click  ");
+      e.stopPropagation();
+
+      markup.find(".product__added").prop("readonly", true);
+      markup.find(".product__added").css("background-color", "#d4d2d4");
+      markup.find(".product__added").prop("placeholder", productAdded);
+    }
+  });
+}
+
+function newDoc(uid, idProduct, markup) {
+  let newProduct = markup.find(".product__added").val();
+  markup.find(".product__added").prop("readonly", true);
+  markup.find(".product__added").css("background-color", "#d4d2d4");
+  $(".product-list").empty();
+  updateDoc(doc(db, "products-" + uid, idProduct), {
+    product: newProduct,
   });
 }
 
