@@ -24,21 +24,17 @@ $(function () {
     .find(".edit")
     .on("click", (e) => {
       e.preventDefault();
-      console.log("click en editar");
     });
   $(".login")
     .find("#btnSign-in")
     .on("click", (e) => {
       e.preventDefault();
-      console.log("click en iniciar sesion");
-      /*  $(".login").find("#btnSign-in").off("click"); //limpar el evento click del login */
       login();
     });
   $(".login")
     .find("#btnSign-up")
     .on("click", (e) => {
       e.preventDefault();
-      console.log("click en registrarse");
       send();
     });
   $("#btnSign-out").on("click", async () => {
@@ -65,7 +61,6 @@ async function send() {
 
     $("#password").val("");
     register = true;
-    console.log(register);
     listenLogin(register);
 
     const markup = `<div class="messageSucces">El usuario ha sido registrado con exito, ahora y apuedes iniciar sesión</div>`;
@@ -96,14 +91,10 @@ async function login() {
   let email = $("#email").val();
   let password = $("#password").val();
 
-  console.log(email);
-  console.log(password);
-
   try {
     const credentials = await signInWithEmailAndPassword(auth, email, password);
 
     if (credentials) {
-      /*     $("#sign-in").css("display", "none");*/
       $("#btnSign-out").show();
       $(".login").css("display", "none");
       $(".add__products").show();
@@ -222,20 +213,10 @@ function editProduct(markup, idProduct, uid, productAdded) {
     if (e.keyCode === 27) {
       console.log("esc");
       e.stopPropagation();
-
       markup.find(".product__added").prop("readonly", true);
       markup.find(".product__added").css("background-color", "#d4d2d4");
       markup.find(".product__added").prop("placeholder", productAdded);
-    }
-  });
-  $(document).on("click", (e) => {
-    if (e.keyCode === 27) {
-      console.log("click  ");
-      e.stopPropagation();
-
-      markup.find(".product__added").prop("readonly", true);
-      markup.find(".product__added").css("background-color", "#d4d2d4");
-      markup.find(".product__added").prop("placeholder", productAdded);
+      markup.find(".product__added").val("");
     }
   });
 }
