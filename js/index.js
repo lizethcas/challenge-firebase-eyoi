@@ -50,8 +50,7 @@ $(function () {
 async function send() {
   let email = $("#email").val();
   let password = $("#password").val();
-  console.log(email);
-  console.log(password);
+
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -67,9 +66,9 @@ async function send() {
     $(".login").append(markup); //MOSTRAR EL ERROR EN PANTALLA
     $(".messageSucces").hide(5000); //MOSTRAR POR 5 SEGUNDOS EL MENSAJE
   } catch (error) {
-    console.log(error);
     if (error.code === "auth/invalid-email") {
       const message = "el correo no es valido";
+
       showMessage(message);
     } else if (error.code === "auth/weak-password") {
       const message = "contraseña incorrecta";
@@ -142,14 +141,27 @@ function listenLogin(register) {
 }
 
 function addProduct(uid) {
+  $(".form__products").on("keydown", (e) => {
+    if (e.keyCode === 13) {
+      console.log("enter");
+    }
+  });
   $("#btnSend").on("click", (e) => {
     e.preventDefault();
     $(".product-list").empty();
     let product = $("#task").val();
     $("#task").val("");
-    addDoc(collection(db, "products-" + uid), {
-      product: product,
-    });
+    if (product == "") {
+      const message = "Por favor ingresa un producto";
+      const markup = `<div class="message">${message}</div>`;
+      $(".add__products").append(markup); //MOSTRAR EL ERROR EN PANTALLA
+      $(".message").hide(5000); //MOSTRAR POR 3 SEGUNDOS EL MENSAJE DE ERROR
+      getProduct(uid);
+    } else {
+      addDoc(collection(db, "products-" + uid), {
+        product: product,
+      });
+    }
   });
 
   getProduct(uid);
@@ -199,7 +211,6 @@ function editProduct(markup, idProduct, uid, productAdded) {
     markup.find(".product__added").css("background-color", "white");
     markup.find(".product__added").on("keydown", async (e) => {
       markup.find(".confirm").on("click", (e) => {
-        console.log("click en confirm");
         newDoc(uid, idProduct, markup);
       });
 
@@ -211,7 +222,6 @@ function editProduct(markup, idProduct, uid, productAdded) {
 
   $(document).on("keydown", (e) => {
     if (e.keyCode === 27) {
-      console.log("esc");
       e.stopPropagation();
       markup.find(".product__added").prop("readonly", true);
       markup.find(".product__added").css("background-color", "#d4d2d4");
