@@ -81,6 +81,7 @@
   border-radius: 10px;
 }
 
+.add__products .message,
 .container .message {
   transition-delay: 3s;
   color: #fff;
